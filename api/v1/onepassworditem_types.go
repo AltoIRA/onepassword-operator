@@ -36,7 +36,8 @@ type OnePasswordItemSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	ItemPath string `json:"itemPath,omitempty"`
+	ItemPath          string            `json:"itemPath,omitempty"`
+	CustomAnnotations map[string]string `json:"customAnnotation,omitempty"`
 }
 
 type OnePasswordItemConditionType string
