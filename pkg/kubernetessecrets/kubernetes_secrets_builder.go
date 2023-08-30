@@ -34,7 +34,7 @@ var ErrCannotUpdateSecretType = errs.New("Cannot change secret type. Secret type
 
 var log = logf.Log
 
-func CreateKubernetesSecretFromItem(kubeClient kubernetesClient.Client, secretName, namespace string, item *onepassword.Item, autoRestart string, labels map[string]string, secretType string, ownerRef *metav1.OwnerReference) error {
+func CreateKubernetesSecretFromItem(kubeClient kubernetesClient.Client, secretName, namespace string, item *onepassword.Item, autoRestart string, customAnnotations map[string]string, labels map[string]string, secretType string, ownerRef *metav1.OwnerReference) error {
 	itemVersion := fmt.Sprint(item.Version)
 	secretAnnotations := map[string]string{
 		VersionAnnotation:  itemVersion,
@@ -47,6 +47,12 @@ func CreateKubernetesSecretFromItem(kubeClient kubernetesClient.Client, secretNa
 			return fmt.Errorf("Error parsing %v annotation on Secret %v. Must be true or false. Defaulting to false.", RestartDeploymentsAnnotation, secretName)
 		}
 		secretAnnotations[RestartDeploymentsAnnotation] = autoRestart
+	}
+
+	if len(customAnnotations) != 0 {
+		for key, value := range customAnnotations {
+			secretAnnotations[key] = value
+		}
 	}
 
 	// "Opaque" and "" secret types are treated the same by Kubernetes.
