@@ -37,7 +37,7 @@ type OnePasswordItemSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	ItemPath          string            `json:"itemPath,omitempty"`
-	CustomAnnotations map[string]string `json:"customAnnotation,omitempty"`
+	CustomAnnotations map[string]string `json:"customAnnotations,omitempty"`
 }
 
 type OnePasswordItemConditionType string
